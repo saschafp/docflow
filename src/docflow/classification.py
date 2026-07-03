@@ -1,3 +1,5 @@
+import json
+
 from .backends import LLMBackend
 from .schemas import Document, Prediction
 
@@ -31,10 +33,27 @@ def classify_one(
         user_prompt=user_prompt,
     )
 
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return Prediction(
+            document_id=document.id,
+            label="invalid_response",
+            rationale=raw,
+        )
+
+    label = data.get("label", "No label provided.")
+    rationale = data.get("rationale", "No rationale provided.")
+
+    if label not in labels:
+        invalid_label = label
+        label = "invalid_label"
+        rationale = f"Invalid label returned: {invalid_label!r}. Raw response: {raw!r}"
+
     return Prediction(
         document_id=document.id,
-        label=labels[0],  # TODO
-        rationale=raw,
+        label=label,
+        rationale=rationale,
     )
 
 

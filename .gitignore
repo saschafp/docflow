@@ -1,0 +1,13 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+
+# Build artifacts
+*.egg-info/
+
+# Local configuration
+.env
+
+# OS/editor files
+.DS_Store
+.vscode/

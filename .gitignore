@@ -1,6 +1,7 @@
 # Python bytecode and caches
 __pycache__/
 *.py[cod]
+.ruff_cache/
 
 # Build artifacts
 *.egg-info/

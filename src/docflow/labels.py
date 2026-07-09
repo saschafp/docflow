@@ -3,6 +3,9 @@ from pathlib import Path
 
 
 def labels_from_csv(path: str | Path) -> dict[str, str]:
+    """
+    Load true labels from a CSV file with columns "document_id" and "label".
+    """
     path = Path(path)
 
     with path.open("r") as f:

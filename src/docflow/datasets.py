@@ -9,6 +9,9 @@ def dataset_from_folder(
     path: Path | str,
     labels_file: str = "labels.csv",
 ) -> Dataset:
+    """
+    Load documents and optional true labels from a folder.
+    """
     path = Path(path)
 
     documents = documents_from_folder(path)

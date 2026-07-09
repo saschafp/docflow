@@ -10,6 +10,9 @@ def classification_from_response(
     response: Response,
     labels: list[str],
 ) -> Classification:
+    """
+    Parse one LLM respone into a Classification.
+    """
     try:
         data = json.loads(response.text)
     except json.JSONDecodeError:
@@ -48,6 +51,9 @@ def classifications_from_responses(
     responses: list[Response],
     labels: list[str],
 ) -> list[Classification]:
+    """
+    Parse multiple LLM responses into Classifications.
+    """
     return [
         classification_from_response(response=response, labels=labels)
         for response in responses
@@ -61,6 +67,9 @@ def classify_documents(
     user_prompt: PromptTemplate,
     system_prompt: PromptTemplate,
 ) -> list[Classification]:
+    """
+    Classify documents by generating responses and parsing them.
+    """
     responses = generate_responses(
         documents=documents,
         backend=backend,

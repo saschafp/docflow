@@ -9,6 +9,9 @@ def generate_response(
     user_prompt: PromptTemplate,
     system_prompt: PromptTemplate | None = None,
 ) -> Response:
+    """
+    Generate one LLM response for one document.
+    """
     rendered_system_prompt = system_prompt.render() if system_prompt else None
     rendered_user_prompt = user_prompt.render(document_text=document.text)
 
@@ -30,6 +33,9 @@ def generate_responses(
     user_prompt: PromptTemplate,
     system_prompt: PromptTemplate | None = None,
 ) -> list[Response]:
+    """
+    Generate LLM responses for a collection of documents.
+    """
     return [
         generate_response(
             document=document,

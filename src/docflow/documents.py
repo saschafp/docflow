@@ -8,6 +8,9 @@ def document_from_pdf(
     path: str | Path,
     parser: PdfParser | None = None,
 ) -> Document:
+    """
+    Load a PDF file as a Document.
+    """
     path = Path(path)
 
     if not path.exists():
@@ -32,6 +35,9 @@ def documents_from_folder(
     path: str | Path,
     parser: PdfParser | None = None,
 ) -> list[Document]:
+    """
+    Load all PDF files in a folder as Documents.
+    """
     path = Path(path)
 
     if not path.exists():

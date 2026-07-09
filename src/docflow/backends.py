@@ -5,6 +5,10 @@ from litellm import completion
 
 
 class LLMBackend(Protocol):
+    """
+    Interface for LLM backends.
+    """
+
     name: str
 
     def complete(
@@ -15,6 +19,10 @@ class LLMBackend(Protocol):
 
 
 class DummyBackend:
+    """
+    Dummy backend for tests and examples.
+    """
+
     name = "dummy"
 
     def complete(
@@ -27,6 +35,10 @@ class DummyBackend:
 
 @dataclass(frozen=True)
 class LiteLLMBackend:
+    """
+    LLM backend using LiteLLM.
+    """
+
     model: str
     url: str | None = None
     token: str | None = None

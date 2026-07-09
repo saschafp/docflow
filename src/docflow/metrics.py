@@ -8,6 +8,9 @@ def confusion_matrix(
     classifications: list[Classification],
     true_labels: dict[str, str],
 ) -> tuple[list[list[int]], list[str]]:
+    """
+    Compute the confusion matrix from a classification results and true labels.
+    """
     y_true: list[str] = []
     y_pred: list[str] = []
 
@@ -31,6 +34,9 @@ def plot_confusion_matrix(
     labels: list[str],
     output_path: Path | None = None,
 ) -> None:
+    """
+    Plot or save the confusion matrix.
+    """
     fig, ax = plt.subplots()
 
     ax.imshow(matrix)

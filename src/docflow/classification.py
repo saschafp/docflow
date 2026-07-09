@@ -1,5 +1,8 @@
 import json
 
+from .backends import LLMBackend
+from .generation import generate_responses
+from .prompts import PromptTemplate
 from .schemas import Classification, Response
 
 
@@ -49,3 +52,23 @@ def classifications_from_responses(
         classification_from_response(response=response, labels=labels)
         for response in responses
     ]
+
+
+def classify_documents(
+    documents: list[str],
+    backend: LLMBackend,
+    labels: list[str],
+    user_prompt: PromptTemplate,
+    system_prompt: PromptTemplate,
+) -> list[Classification]:
+    responses = generate_responses(
+        documents=documents,
+        backend=backend,
+        system_prompt=system_prompt,
+        user_prompt=user_prompt,
+    )
+
+    return classifications_from_responses(
+        responses=responses,
+        labels=labels,
+    )

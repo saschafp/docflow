@@ -1,7 +1,6 @@
 from docflow.backends import LiteLLMBackend
-from docflow.classification import classifications_from_responses
+from docflow.classification import classify_documents
 from docflow.documents import documents_from_folder
-from docflow.generation import generate_responses
 from docflow.labels import labels_from_csv
 from docflow.metrics import confusion_matrix, plot_confusion_matrix
 from docflow.prompts import PromptTemplate
@@ -29,15 +28,11 @@ Document:
 """).partial(labels=allowed_labels)
 
 
-responses = generate_responses(
+classifications = classify_documents(
     documents=docs,
     backend=backend,
     system_prompt=system_prompt,
     user_prompt=user_prompt,
-)
-
-classifications = classifications_from_responses(
-    responses=responses,
     labels=allowed_labels,
 )
 

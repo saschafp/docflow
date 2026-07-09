@@ -1,0 +1,58 @@
+from pathlib import Path
+import matplotlib.pyplot as plt
+
+from .schemas import Prediction
+
+
+def confusion_matrix(
+        predictions: list[Prediction],
+        true_labels: dict[str, str],
+) -> tuple[list[list[int]], list[str]]:
+    y_true: list[str] = []
+    y_pred: list[str] = []
+
+    for prediction in predictions:
+        y_true.append(true_labels[prediction.document_id])
+        y_pred.append(prediction.label)
+
+    labels = sorted(set(y_true) | set(y_pred))
+    label_to_index = {label: i for i, label in enumerate(labels)}
+
+    matrix = [[0 for _ in labels] for _ in labels]
+
+    for true, pred in zip(y_true, y_pred):
+        matrix[label_to_index[true]][label_to_index[pred]] += 1
+
+    return matrix, labels
+
+
+def plot_confusion_matrix(
+        matrix: list[list[int]],
+        labels: list[str],
+        output_path: Path,
+) -> None:
+    fig, ax = plt.subplots()
+
+    ax.imshow(matrix)
+
+    ax.set_xticks(range(len(labels)))
+    ax.set_yticks(range(len(labels)))
+    ax.set_xticklabels(labels)
+    ax.set_yticklabels(labels)
+
+    ax.set_xlabel("Predicted Labels")
+    ax.set_ylabel("True Labels")
+    ax.set_title("Confusion Matrix")
+
+    for i, row in enumerate(matrix):
+        for j, value in enumerate(row):
+            ax.text(j, i, str(value), ha="center", va="center", color="white")
+
+    fig.tight_layout()
+
+    if output_path is not None:
+        fig.savefig(output_path)
+
+    else:
+        plt.show()
+    

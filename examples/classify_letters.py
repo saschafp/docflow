@@ -1,12 +1,10 @@
 from docflow.backends import LiteLLMBackend
 from docflow.classification import classify_documents
-from docflow.documents import documents_from_folder
-from docflow.labels import labels_from_csv
+from docflow.datasets import dataset_from_folder
 from docflow.metrics import confusion_matrix, plot_confusion_matrix
 from docflow.prompts import PromptTemplate
 
-docs = documents_from_folder("data/letters")
-true_labels = labels_from_csv("data/letters/labels.csv")
+dataset = dataset_from_folder("data/letters")
 
 backend = LiteLLMBackend(model="ollama/mistral:latest", url="http://localhost:11434")
 allowed_labels = ["A", "B", "C"]
@@ -29,7 +27,7 @@ Document:
 
 
 classifications = classify_documents(
-    documents=docs,
+    documents=dataset.documents,
     backend=backend,
     system_prompt=system_prompt,
     user_prompt=user_prompt,
@@ -38,7 +36,7 @@ classifications = classify_documents(
 
 matrix, matrix_labels = confusion_matrix(
     classifications=classifications,
-    true_labels=true_labels,
+    true_labels=dataset.labels,
 )
 
 plot_confusion_matrix(

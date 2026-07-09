@@ -10,6 +10,12 @@ class Document:
 
 
 @dataclass
+class Dataset:
+    documents: list[Document]
+    labels: dict[str, str]
+
+
+@dataclass
 class Response:
     document_id: str
     text: str

@@ -30,6 +30,7 @@ class LiteLLMBackend:
     model: str
     url: str | None = None
     token: str | None = None
+    temperature: float = 0.0
 
     @property
     def name(self) -> str:
@@ -52,7 +53,7 @@ class LiteLLMBackend:
             messages=messages,
             api_base=self.url,
             api_key=self.token,
-            temperature=0.0,
+            temperature=self.temperature,
         )
 
         content = response.choices[0].message.content

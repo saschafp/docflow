@@ -1,19 +1,19 @@
 from pathlib import Path
 import matplotlib.pyplot as plt
 
-from .schemas import Prediction
+from .schemas import Classification
 
 
 def confusion_matrix(
-    predictions: list[Prediction],
+    classifications: list[Classification],
     true_labels: dict[str, str],
 ) -> tuple[list[list[int]], list[str]]:
     y_true: list[str] = []
     y_pred: list[str] = []
 
-    for prediction in predictions:
-        y_true.append(true_labels[prediction.document_id])
-        y_pred.append(prediction.label)
+    for classification in classifications:
+        y_true.append(true_labels[classification.document_id])
+        y_pred.append(classification.label)
 
     labels = sorted(set(y_true) | set(y_pred))
     label_to_index = {label: i for i, label in enumerate(labels)}
@@ -29,7 +29,7 @@ def confusion_matrix(
 def plot_confusion_matrix(
     matrix: list[list[int]],
     labels: list[str],
-    output_path: Path,
+    output_path: Path | None = None,
 ) -> None:
     fig, ax = plt.subplots()
 

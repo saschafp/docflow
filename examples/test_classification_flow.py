@@ -1,19 +1,47 @@
 from docflow.backends import LiteLLMBackend
-from docflow.classification import classify
+from docflow.classification import classifications_from_responses
 from docflow.documents import documents_from_folder
-from docflow.metrics import confusion_matrix, plot_confusion_matrix
+from docflow.generation import generate_responses
+from docflow.prompts import PromptTemplate
+
 
 docs = documents_from_folder("data/letters")
-
+labels = ["A", "B", "C"]
 backend = LiteLLMBackend(model="ollama/mistral:latest", url="http://localhost:11434")
 
-labels = ["A", "B", "C"]
 
-predictions = classify(documents=docs, backend=backend, labels=labels)
+system_prompt = PromptTemplate("""
+You are a strict document classifier.
+Return only valid JSON with the keys "label" and "rationale".
+""")
 
-true_labels = {"A": "A", "B": "B", "C": "C"}
-matrix, labels = confusion_matrix(predictions=predictions, true_labels=true_labels)
-plot_confusion_matrix(matrix=matrix, labels=labels, output_path=None)
+user_prompt = PromptTemplate("""
+Classify the following document.
 
-for prediction in predictions:
-    print(prediction)
+Allowed labels:
+{labels}
+
+Document:
+{document_text}
+""").partial(labels=labels)
+
+
+responses = generate_responses(
+    documents=docs,
+    backend=backend,
+    system_prompt=system_prompt,
+    user_prompt=user_prompt,
+)
+
+classifications = classifications_from_responses(
+    responses=responses,
+    labels=labels,
+)
+
+print("Responses:")
+for response in responses:
+    print(response)
+
+print("\nClassifications:")
+for classification in classifications:
+    print(classification)

@@ -10,7 +10,14 @@ class Document:
 
 
 @dataclass
-class Prediction:
+class Response:
+    document_id: str
+    text: str
+    backend_name: str
+
+
+@dataclass
+class Classification:
     document_id: str
     label: str
     rationale: str

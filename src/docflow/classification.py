@@ -1,65 +1,51 @@
 import json
 
-from .backends import LLMBackend
-from .schemas import Document, Prediction
-
-SYSTEM_PROMPT = """
-You are a strict document classifier.
-Return exactly one label from the allowed labels.
-Return only valid JSON with the keys "label" and "rationale".
-"""
+from .schemas import Classification, Response
 
 
-def build_user_prompt(document: Document, labels: list[str]) -> str:
-    return f"""
-Classify the following document.
-
-Allowed labels
-{labels}
-
-Document:
-{document.text}
-"""
-
-
-def classify_one(
-    document: Document,
-    backend: LLMBackend,
+def classification_from_response(
+    response: Response,
     labels: list[str],
-) -> Prediction:
-    user_prompt = build_user_prompt(document, labels)
-    raw = backend.complete(
-        system_prompt=SYSTEM_PROMPT,
-        user_prompt=user_prompt,
-    )
-
+) -> Classification:
     try:
-        data = json.loads(raw)
+        data = json.loads(response.text)
     except json.JSONDecodeError:
-        return Prediction(
-            document_id=document.id,
-            label="invalid_response",
-            rationale=raw,
+        return Classification(
+            document_id=response.document_id,
+            label="invalid_json",
+            rationale=f"Response was not valid JSON: {response.text!r}",
         )
 
-    label = data.get("label", "No label provided.")
-    rationale = data.get("rationale", "No rationale provided.")
+    if not isinstance(data, dict):
+        return Classification(
+            document_id=response.document_id,
+            label="invalid_json",
+            rationale=f"Response was not a JSON object: {response.text!r}",
+        )
+
+    label = data.get("label", "missing_label")
+    rationale = data.get("rationale", "missing_rationale")
 
     if label not in labels:
         invalid_label = label
-        label = "invalid_label"
-        rationale = f"Invalid label returned: {invalid_label!r}. Raw response: {raw!r}"
+        return Classification(
+            document_id=response.document_id,
+            label="invalid_label",
+            rationale=f"Invalid label returned: {invalid_label!r}. Raw response: {response.text!r}",
+        )
 
-    return Prediction(
-        document_id=document.id,
+    return Classification(
+        document_id=response.document_id,
         label=label,
         rationale=rationale,
     )
 
 
-def classify(
-    documents: list[Document],
-    backend: LLMBackend,
+def classifications_from_responses(
+    responses: list[Response],
     labels: list[str],
-) -> list[Prediction]:
-    return [classify_one(document, backend, labels) for document in documents]
+) -> list[Classification]:
+    return [
+        classification_from_response(response=response, labels=labels)
+        for response in responses
+    ]

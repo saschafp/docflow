@@ -5,8 +5,8 @@ from .schemas import Prediction
 
 
 def confusion_matrix(
-        predictions: list[Prediction],
-        true_labels: dict[str, str],
+    predictions: list[Prediction],
+    true_labels: dict[str, str],
 ) -> tuple[list[list[int]], list[str]]:
     y_true: list[str] = []
     y_pred: list[str] = []
@@ -27,9 +27,9 @@ def confusion_matrix(
 
 
 def plot_confusion_matrix(
-        matrix: list[list[int]],
-        labels: list[str],
-        output_path: Path,
+    matrix: list[list[int]],
+    labels: list[str],
+    output_path: Path,
 ) -> None:
     fig, ax = plt.subplots()
 
@@ -55,4 +55,3 @@ def plot_confusion_matrix(
 
     else:
         plt.show()
-    

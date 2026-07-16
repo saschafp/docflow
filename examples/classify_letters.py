@@ -30,16 +30,6 @@ classifications = df.classify_documents(
     labels=allowed_labels,
 )
 
-matrix, matrix_labels = df.confusion_matrix(
-    classifications=classifications,
-    true_labels=dataset.labels,
-)
-
-df.plot_confusion_matrix(
-    matrix=matrix,
-    labels=matrix_labels,
-)
-
 for classification in classifications:
     print(f"Document ID: {classification.document_id}")
     print(f"Predicted Label: {classification.label}")

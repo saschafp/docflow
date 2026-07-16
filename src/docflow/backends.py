@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from typing import Any, Protocol, cast
-from urllib import response
 
 from litellm import completion
 

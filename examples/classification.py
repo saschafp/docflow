@@ -35,3 +35,5 @@ for classification in classifications:
     print(f"Predicted Label: {classification.label}")
     print(f"Rationale: {classification.rationale}")
     print("-" * 40)
+
+df.save_classifications_csv(classifications, "out/results.csv")

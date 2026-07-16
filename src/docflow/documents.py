@@ -25,7 +25,7 @@ def document_from_pdf(
     text = parser.parse(path)
 
     return Document(
-        id=path.stem,
+        id=path.name,
         path=path,
         text=text,
     )

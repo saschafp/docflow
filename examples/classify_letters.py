@@ -1,9 +1,9 @@
 import docflow as df
 
-dataset = df.dataset_from_folder("data/letters")
+dataset = df.dataset_from_folder("data/emails")
 
-backend = df.LiteLLMBackend(model="ollama/mistral:latest", url="http://localhost:11434")
-allowed_labels = ["A", "B", "C"]
+backend = df.LiteLLMBackend(model="ollama/gpt-oss:20b", url="http://localhost:11434")
+allowed_labels = ["ham", "spam"]
 
 
 system_prompt = df.PromptTemplate("""
@@ -39,3 +39,9 @@ df.plot_confusion_matrix(
     matrix=matrix,
     labels=matrix_labels,
 )
+
+for classification in classifications:
+    print(f"Document ID: {classification.document_id}")
+    print(f"Predicted Label: {classification.label}")
+    print(f"Rationale: {classification.rationale}")
+    print("-" * 40)

@@ -3,7 +3,7 @@ import json
 from .backends import LLMBackend
 from .generation import generate_responses
 from .prompts import PromptTemplate
-from .schemas import Classification, Response
+from .schemas import Classification, Document, Response
 
 
 def classification_from_response(
@@ -61,11 +61,11 @@ def classifications_from_responses(
 
 
 def classify_documents(
-    documents: list[str],
+    documents: list[Document],
     backend: LLMBackend,
     labels: list[str],
     user_prompt: PromptTemplate,
-    system_prompt: PromptTemplate,
+    system_prompt: PromptTemplate | None = None,
 ) -> list[Classification]:
     """
     Classify documents by generating responses and parsing them.

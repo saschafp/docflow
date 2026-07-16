@@ -1,21 +1,25 @@
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Any, Protocol, cast
+from urllib import response
 
 from litellm import completion
 
 
 class LLMBackend(Protocol):
-    """
-    Interface for LLM backends.
-    """
+    """Interface for LLM backends."""
 
-    name: str
+    @property
+    def name(self) -> str:
+        """Backend name."""
+        ...
 
     def complete(
         self,
         system_prompt: str | None = None,
         user_prompt: str | None = None,
-    ) -> str: ...
+    ) -> str:
+        """Generate text from optional system and user prompts."""
+        ...
 
 
 class DummyBackend:
@@ -23,7 +27,9 @@ class DummyBackend:
     Dummy backend for tests and examples.
     """
 
-    name = "dummy"
+    @property
+    def name(self) -> str:
+        return "dummy"
 
     def complete(
         self,
@@ -68,9 +74,15 @@ class LiteLLMBackend:
             temperature=self.temperature,
         )
 
-        content = response.choices[0].message.content
+        return _completion_text(response)
 
-        if content is None:
-            raise RuntimeError("Received empty response from LLM.")
 
-        return content
+def _completion_text(response: object) -> str:
+    typed_response = cast(Any, response)
+
+    content = typed_response.choices[0].message.content
+
+    if content is None:
+        raise RuntimeError("Received empty response from LLM.")
+
+    return str(content)

@@ -32,6 +32,7 @@ classifications = df.classify_documents(
     user_prompt=user_prompt,
     labels=allowed_labels,
     progress=True,
+    max_concurrency=2,
 )
 
 # Print the classification results

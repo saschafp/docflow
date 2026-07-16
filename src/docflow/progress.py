@@ -8,6 +8,7 @@ def maybe_tqdm(
     items: Iterable[T],
     enabled: bool = False,
     description: str | None = None,
+    total: int | None = None,
 ) -> Iterator[T]:
     """Wrap an iterable in tqdm if progress display is enabled."""
     if not enabled:
@@ -22,4 +23,4 @@ def maybe_tqdm(
             "Install it with `pip install docflow[progress]`."
         ) from error
 
-    yield from tqdm(items, desc=description)
+    yield from tqdm(items, desc=description, total=total)

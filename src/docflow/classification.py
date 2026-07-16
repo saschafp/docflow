@@ -67,6 +67,7 @@ def classify_documents(
     user_prompt: PromptTemplate,
     system_prompt: PromptTemplate | None = None,
     progress: bool = False,
+    max_concurrency: int = 1,
 ) -> list[Classification]:
     """
     Classify documents by generating responses and parsing them.
@@ -77,6 +78,7 @@ def classify_documents(
         system_prompt=system_prompt,
         user_prompt=user_prompt,
         progress=progress,
+        max_concurrency=max_concurrency,
     )
 
     return classifications_from_responses(

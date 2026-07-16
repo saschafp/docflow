@@ -5,7 +5,7 @@ import docflow as df
 
 dataset = df.dataset_from_folder("data/emails")
 
-backend = df.LiteLLMBackend(model="ollama/gpt-oss:20b", url="http://localhost:11434")
+backend = df.OllamaBackend(model="gpt-oss:20b", url="http://localhost:11434")
 allowed_labels = ["ham", "spam"]
 
 

@@ -1,4 +1,4 @@
-from .backends import DummyBackend, LiteLLMBackend, LLMBackend
+from .backends import DummyBackend, LiteLLMBackend, LLMBackend, OllamaBackend
 from .classification import (
     classification_from_response,
     classifications_from_responses,
@@ -20,6 +20,7 @@ __all__ = [
     "DummyBackend",
     "LLMBackend",
     "LiteLLMBackend",
+    "OllamaBackend",
     "PromptTemplate",
     "Response",
     "classification_from_response",

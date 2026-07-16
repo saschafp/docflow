@@ -8,10 +8,24 @@ From the repository root, run:
 pip install -e .
 ```
 
-## Example
-Run the [letter classification example](examples/classify_letters.py):
+If you want to use the optional progress bar, install `tqdm`:
 ```bash
-python examples/classify_letters.py
+pip install tqdm
+```
+or install it with the progress dependencies:
+```bash
+pip install -e .[progress]
 ```
 
-The example assumes Ollama is running locally and `mistral:latest` is available.
+For development, install the dev dependencies:
+```bash
+pip install -e .[dev]
+```
+
+## Example
+Run the [email classification example](examples/classification.py):
+```bash
+python examples/classification.py
+```
+
+The example assumes Ollama is running locally and `gpt-oss:20b` is available.

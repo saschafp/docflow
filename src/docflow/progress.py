@@ -18,7 +18,8 @@ def maybe_tqdm(
         from tqdm import tqdm
     except ImportError as error:
         raise ImportError(
-            "Progress bars require tqdm. Install it with `pip install tqdm`."
+            "Progress bars require tqdm. "
+            "Install it with `pip install docflow[progress]`."
         ) from error
 
     yield from tqdm(items, desc=description)

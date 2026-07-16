@@ -1,41 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Protocol, cast
-
-from litellm import completion
-
-
-class LLMBackend(Protocol):
-    """Interface for LLM backends."""
-
-    @property
-    def name(self) -> str:
-        """Backend name."""
-        ...
-
-    def complete(
-        self,
-        system_prompt: str | None = None,
-        user_prompt: str | None = None,
-    ) -> str:
-        """Generate text from optional system and user prompts."""
-        ...
-
-
-class DummyBackend:
-    """
-    Dummy backend for tests and examples.
-    """
-
-    @property
-    def name(self) -> str:
-        return "dummy"
-
-    def complete(
-        self,
-        system_prompt: str | None = None,
-        user_prompt: str | None = None,
-    ) -> str:
-        return '{"label": "dummy", "rationale": "This is a dummy response."}'
+from typing import Any, cast
 
 
 @dataclass(frozen=True)
@@ -58,6 +22,8 @@ class LiteLLMBackend:
         system_prompt: str | None = None,
         user_prompt: str | None = None,
     ) -> str:
+        from litellm import completion
+
         messages = []
 
         if system_prompt is not None:

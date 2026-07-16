@@ -1,5 +1,5 @@
 from matplotlib import pyplot as plt
-from sklearn.metrics import confusion_matrix
+from sklearn import metrics
 
 import docflow as df
 
@@ -52,8 +52,9 @@ y_true, y_pred = df.classification_targets(
     classifications=classifications, true_labels=dataset.labels
 )
 
-# Sklearn confusion matrix
-cm = confusion_matrix(y_true, y_pred, labels=allowed_labels)
+# Sklearn report and confusion matrix
+print(metrics.classification_report(y_true, y_pred, labels=allowed_labels))
+cm = metrics.confusion_matrix(y_true, y_pred, labels=allowed_labels)
 
 # Plot with matplotlib
 plt.figure(figsize=(8, 6))

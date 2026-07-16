@@ -8,6 +8,16 @@ dependencies = [
     "litellm",
 ]
 
+[project.optional-dependencies]
+progress = [
+    "tqdm",
+]
+dev = [
+    "pre-commit",
+    "ruff",
+    "tqdm",
+]
+
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"

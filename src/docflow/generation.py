@@ -1,4 +1,5 @@
 from .backends import LLMBackend
+from .progress import maybe_tqdm
 from .prompts import PromptTemplate
 from .schemas import Document, Response
 
@@ -32,6 +33,7 @@ def generate_responses(
     backend: LLMBackend,
     user_prompt: PromptTemplate,
     system_prompt: PromptTemplate | None = None,
+    progress: bool = False,
 ) -> list[Response]:
     """
     Generate LLM responses for a collection of documents.
@@ -43,5 +45,7 @@ def generate_responses(
             user_prompt=user_prompt,
             system_prompt=system_prompt,
         )
-        for document in documents
+        for document in maybe_tqdm(
+            documents, enabled=progress, description="Generating responses"
+        )
     ]

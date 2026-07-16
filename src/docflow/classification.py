@@ -66,6 +66,7 @@ def classify_documents(
     labels: list[str],
     user_prompt: PromptTemplate,
     system_prompt: PromptTemplate | None = None,
+    progress: bool = False,
 ) -> list[Classification]:
     """
     Classify documents by generating responses and parsing them.
@@ -75,6 +76,7 @@ def classify_documents(
         backend=backend,
         system_prompt=system_prompt,
         user_prompt=user_prompt,
+        progress=progress,
     )
 
     return classifications_from_responses(

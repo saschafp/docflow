@@ -31,6 +31,7 @@ classifications = df.classify_documents(
     system_prompt=system_prompt,
     user_prompt=user_prompt,
     labels=allowed_labels,
+    progress=True,
 )
 
 # Print the classification results
@@ -43,7 +44,7 @@ for classification in classifications:
 
 # Save the classification results
 df.save_classifications_csv(
-    classifications=classifications, path="classification_results.csv"
+    classifications=classifications, path="out/classification_results.csv"
 )
 
 # Evaluate the classification results

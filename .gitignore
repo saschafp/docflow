@@ -12,3 +12,7 @@ __pycache__/
 # OS/editor files
 .DS_Store
 .vscode/
+
+# Generated outputs
+out/*
+!out/.gitkeep

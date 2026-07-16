@@ -36,4 +36,4 @@ for classification in classifications:
     print(f"Rationale: {classification.rationale}")
     print("-" * 40)
 
-df.save_classifications_csv(classifications, "out/results.csv")
+df.save_classifications_csv(classifications=classifications, path="out/results.csv")

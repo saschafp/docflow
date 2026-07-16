@@ -5,14 +5,24 @@ description = "Document workflows with LLM backends."
 requires-python = ">=3.10"
 dependencies = [
     "pypdf",
-    "litellm",
 ]
 
 [project.optional-dependencies]
+ollama = [
+    "httpx",
+]
+
+litellm = [
+    "litellm",
+]
+
 progress = [
     "tqdm",
 ]
+
 dev = [
+    "httpx",
+    "litellm",
     "pre-commit",
     "ruff",
     "tqdm",

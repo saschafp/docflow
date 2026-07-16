@@ -22,7 +22,13 @@ class LiteLLMBackend:
         system_prompt: str | None = None,
         user_prompt: str | None = None,
     ) -> str:
-        from litellm import completion
+        try:
+            from litellm import completion
+        except ImportError as error:
+            raise ImportError(
+                "LiteLLMBackend requires litellm. "
+                "Install it with `pip install docflow[litellm]`."
+            ) from error
 
         messages = []
 
